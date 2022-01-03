@@ -69,8 +69,24 @@ namespace utils
 	void DeleteTexture(Texture& texture);
 #pragma endregion TextureFunctionality
 
-#pragma region CollisionFunctionality
+	bool IsPointInRect(const Point2f& point, const Rectf& rect);
+
 
 #pragma endregion CollisionFunctionality
+
+	int GetIndex(int rowIdx, int colIdx, int nrOfCols);
+	int GetRand(int min, int max);
+
+	Rectf CreateTextRect(const Rectf& rect, int margin);
+
+	struct Tile
+	{
+		float size{};
+		bool isApple{};
+		bool isSnake{};
+		Color4f color{};
+	};
+
+	enum class Direction { left, right, up, down };
 
 }

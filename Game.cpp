@@ -1,40 +1,64 @@
 #include "pch.h"
 #include "Game.h"
+#include <iostream>
 
 //Basic game functions
 #pragma region gameFunctions											
 void Start()
 {
-	// initialize game resources here
+	m_pGrid = new Grid{ Size,Size,25.f,g_WindowWidth ,g_WindowHeight };
+	m_pSnake = new Snake{ Size,Size ,25.f};
+	m_pApple = new Apple{ Size,Size };
+	m_pMaze = new Maze{ Size ,Size };
+	m_pApple->AddApple(m_pSnake->GetSnake());
+	m_pGrid->ShowMaze(m_pMaze->GenerateMaze());
+
 }
 
 void Draw()
 {
-	ClearBackground();
+	ClearBackground(.2f, .2f, .2f);
+	m_pGrid->DrawGrid(g_WindowWidth, g_WindowHeight);
 
-	// Put your own draw statements here
+	/*SetColor(Color4f{ 1.f, .0f, .0f, 1 });
+	std::vector<std::pair<int, int>> debugmaze = m_pMaze->GetMazeConnections();
+	for (auto pair : debugmaze)
+	{
+		float x1{ 12.5f * 1 * (pair.first / Size) };
+		float y1{ 12.5f * 1 * pair.first };
+		Point2f firstpoint{x1,y1};
+		float x2{ 12.5f * 1 * (pair.first / Size) };
+		float y2{ 12.5f * 1 * pair.first };
+		Point2f secondpoint{ x2,y2 };
 
+
+		DrawLine(firstpoint,secondpoint);
+	}*/
 }
 
 void Update(float elapsedSec)
 {
-	// process input, do physics 
+	///*m_pGrid->ResetGrid();
+	//m_pGrid->SetCellSnake(m_pSnake->GetSnake());
+	//m_pGrid->SetCellApple(m_pApple->GetApple());
+	//m_pSnake->Update(elapsedSec);
+	//if (m_pSnake->AppleOverlap(m_pApple->GetApple()))
+	//{
+	//	m_pApple->AddApple(m_pSnake->GetSnake());
+	//}
 
-	// e.g. Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
+	//if(m_pSnake->GetSnakeSize() >= 25*25)
 	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
+	//	std::cout << "won";
+	//*/}
 }
 
 void End()
 {
-	// free game resources here
+	delete m_pGrid;
+	delete m_pSnake;
+	delete m_pApple;
+	delete m_pMaze;
 }
 #pragma endregion gameFunctions
 
@@ -47,19 +71,21 @@ void OnKeyDownEvent(SDL_Keycode key)
 
 void OnKeyUpEvent(SDL_Keycode key)
 {
-	//switch (key)
-	//{
-	//case SDLK_LEFT:
-	//	//std::cout << "Left arrow key released\n";
-	//	break;
-	//case SDLK_RIGHT:
-	//	//std::cout << "Right arrow key released\n";
-	//	break;
-	//case SDLK_1:
-	//case SDLK_KP_1:
-	//	//std::cout << "Key 1 released\n";
-	//	break;
-	//}
+	switch (key)
+	{
+	case SDLK_LEFT:
+		m_pSnake->SetDirection(Direction::left);
+		break;
+	case SDLK_RIGHT:
+		m_pSnake->SetDirection(Direction::right);
+		break;
+	case SDLK_UP:
+		m_pSnake->SetDirection(Direction::up);
+		break;
+	case SDLK_DOWN:
+		m_pSnake->SetDirection(Direction::down);
+		break;
+	}
 }
 
 void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
@@ -93,8 +119,3 @@ void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
 	//}
 }
 #pragma endregion inputHandling
-
-#pragma region ownDefinitions
-// Define your own functions here
-
-#pragma endregion ownDefinitions

@@ -492,7 +492,41 @@ namespace utils
 
 
 #pragma region CollisionFunctionality
-
+	bool IsPointInRect(const Point2f& point, const Rectf& rect)
+	{
+		if (point.x > rect.left && point.x < rect.left + rect.width &&
+			point.y > rect.bottom && point.y < rect.bottom + rect.height)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 #pragma endregion CollisionFunctionality
+
+	int GetIndex(int rowIdx, int colIdx, int nrOfCols)
+	{
+		int index{};
+
+		index = rowIdx * nrOfCols + colIdx;
+
+		return index;
+	}
+	int GetRand(int min, int max)
+	{
+		//includes min and max
+		int random{};
+		random = rand() % (max - min + 1) + min;
+		return random;
+	}
+
+	Rectf CreateTextRect(const Rectf& rect, int margin)
+	{
+		Rectf textRect{ rect.left + margin, rect.bottom + margin, rect.width - (margin * 2), rect.height - (margin * 2) };
+		return textRect;
+	}
+
 }
