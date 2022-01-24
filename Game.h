@@ -6,7 +6,7 @@ using namespace utils;
 #include "Apple.h"
 #include "Maze.h"
 
-#define Size 5 //size of grid
+#define Size 20 //size of grid
 #pragma region gameInformation
 // Set your name and group in the title here
 std::string g_WindowTitle{ "Project name - Name, firstname - 1DAExx" };
@@ -21,6 +21,7 @@ Snake* m_pSnake{};
 Apple* m_pApple{};
 
 Maze* m_pMaze{};
+std::vector<std::pair<int, int>> m_HamiltonianCycle;
 
 #pragma region gameFunctions											
 void Start();

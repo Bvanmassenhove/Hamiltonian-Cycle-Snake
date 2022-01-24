@@ -6,7 +6,7 @@ class Snake final
 {
 public:
 
-	Snake(int nrCols, int nrRows,float cellSize);
+	Snake(int nrCols, int nrRows,float cellSize , std::vector<std::pair<int, int>> cycle);
 	~Snake();
 
 	Snake(const Snake& other) = delete;
@@ -15,6 +15,7 @@ public:
 	Snake& operator=(Snake&& other) = delete;
 
 	void Update(float elapsedSec);
+	void CycleUpdate(float elapsedSec);
 	std::vector<int> GetSnake() { return m_Snake; }
 	void SetDirection(Direction direction) { m_Direction = direction; }
 	bool AppleOverlap(int idx);
@@ -27,6 +28,11 @@ private:
 	float m_CellSize{};
 	Direction m_Direction{};
 	float m_elapsedSec{};
+
+	float speed{0.00001f};
+
+	std::vector<std::pair<int, int>>m_CycleConnections;
+	int m_cycleposition{ 0 };
 
 	void ExtendSnake(int idx) { m_Snake.push_back(idx); m_SnakeSize++; }
 };

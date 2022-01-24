@@ -7,50 +7,41 @@
 void Start()
 {
 	m_pGrid = new Grid{ Size,Size,25.f,g_WindowWidth ,g_WindowHeight };
-	m_pSnake = new Snake{ Size,Size ,25.f};
 	m_pApple = new Apple{ Size,Size };
-	m_pMaze = new Maze{ Size ,Size };
-	m_pApple->AddApple(m_pSnake->GetSnake());
-	m_pGrid->ShowMaze(m_pMaze->GenerateMaze());
+	m_pMaze = new Maze{ Size/2 ,Size/2 };
+	do
+	{
+		m_HamiltonianCycle = m_pMaze->Generatecycle();
 
+	} while (m_HamiltonianCycle.size() != 400 || std::find_if(m_HamiltonianCycle.begin(), m_HamiltonianCycle.end(), [&](const auto& pair) { return pair.second < 0; }) != m_HamiltonianCycle.end());
+	m_pSnake = new Snake{ Size,Size ,25.f,m_HamiltonianCycle };
+	m_pApple->AddApple(m_pSnake->GetSnake());
 }
 
 void Draw()
 {
 	ClearBackground(.2f, .2f, .2f);
+	//m_pGrid->ShowCycle(m_HamiltonianCycle);
 	m_pGrid->DrawGrid(g_WindowWidth, g_WindowHeight);
-
-	/*SetColor(Color4f{ 1.f, .0f, .0f, 1 });
-	std::vector<std::pair<int, int>> debugmaze = m_pMaze->GetMazeConnections();
-	for (auto pair : debugmaze)
-	{
-		float x1{ 12.5f * 1 * (pair.first / Size) };
-		float y1{ 12.5f * 1 * pair.first };
-		Point2f firstpoint{x1,y1};
-		float x2{ 12.5f * 1 * (pair.first / Size) };
-		float y2{ 12.5f * 1 * pair.first };
-		Point2f secondpoint{ x2,y2 };
-
-
-		DrawLine(firstpoint,secondpoint);
-	}*/
 }
 
 void Update(float elapsedSec)
 {
-	///*m_pGrid->ResetGrid();
-	//m_pGrid->SetCellSnake(m_pSnake->GetSnake());
-	//m_pGrid->SetCellApple(m_pApple->GetApple());
-	//m_pSnake->Update(elapsedSec);
-	//if (m_pSnake->AppleOverlap(m_pApple->GetApple()))
-	//{
-	//	m_pApple->AddApple(m_pSnake->GetSnake());
-	//}
+	m_pGrid->ResetGrid();
+	m_pGrid->SetCellSnake(m_pSnake->GetSnake());
+	m_pGrid->SetCellApple(m_pApple->GetApple());
 
-	//if(m_pSnake->GetSnakeSize() >= 25*25)
-	//{
-	//	std::cout << "won";
-	//*/}
+	m_pSnake->CycleUpdate(elapsedSec);
+	
+	if (m_pSnake->AppleOverlap(m_pApple->GetApple()))
+	{
+		m_pApple->AddApple(m_pSnake->GetSnake());
+	}
+
+	if(m_pSnake->GetSnakeSize() >= 25*25)
+	{
+		std::cout << "won";
+	}
 }
 
 void End()

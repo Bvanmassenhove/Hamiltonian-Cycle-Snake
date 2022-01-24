@@ -77,7 +77,13 @@ void Grid::ShowMaze(std::vector<int>maze)
 	{
 		m_Grid[maze[i]].isSnake = true;
 		m_Grid[maze[i]].color = Color4f{ 0.1f,1.0f,0.1f,1.f };
-			
-		
+	}
+}
+void Grid::ShowCycle(std::vector<std::pair<int, int>>cycle)
+{
+	for (int i = 0; i < int(cycle.size()); ++i)
+	{
+		m_Grid[cycle[i].first].isSnake = true;
+		m_Grid[cycle[i].first].color = Color4f{ 0.1f,0.1f,1.0f,0.5f };
 	}
 }

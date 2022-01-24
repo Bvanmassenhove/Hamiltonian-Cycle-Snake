@@ -21,6 +21,7 @@ public:
 	bool CheckGameOver(std::vector<int> snake);
 
 	void ShowMaze(std::vector<int>maze);
+	void ShowCycle(std::vector<std::pair<int, int>>cycle);
 
 private:
 	Color4f m_GridBackgroundColor{ .4f, .4f, .4f, 1 };

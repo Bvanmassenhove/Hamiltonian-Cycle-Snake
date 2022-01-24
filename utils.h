@@ -87,6 +87,6 @@ namespace utils
 		Color4f color{};
 	};
 
-	enum class Direction { left, right, up, down };
+	enum class Direction { left, right, up, down , forward };
 
 }

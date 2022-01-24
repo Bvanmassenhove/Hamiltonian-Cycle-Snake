@@ -20,7 +20,7 @@ void Apple::AddApple(std::vector<int> Snake)
 		m_Apple = GetIndex(GetRand(0, m_NrOfRows), GetRand(0, m_NrOfCol), m_NrOfCol);
 		for (auto snakecell : Snake)
 		{
-			if (m_Apple != snakecell)
+			if (m_Apple != snakecell && m_Apple < 401)
 			{
 				temp = false;
 			}
